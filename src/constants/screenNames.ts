@@ -4,5 +4,7 @@ export const SCREEN_NAME = {
   STATISTIC_SCREEN: 'StatisticScreen',
   PROFILE_SCREEN: 'ProfileScreen',
   HISTORY_SCREEN: 'HistoryScreen',
-  WElCOME_SCREEN: 'WelcomeScreen'
+  WElCOME_SCREEN: 'WelcomeScreen',
+  SIGNIN_SCREEEN: 'SignInScreen',
+  SIGNUP_SCREEN: 'SignUpScreen'
 };

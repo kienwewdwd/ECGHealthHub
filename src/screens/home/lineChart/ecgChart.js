@@ -5,12 +5,16 @@ import database from '@react-native-firebase/database';
 import { IMG_Decrease, IMG_Increase, IMG_Save } from '../../../assets/images';
 import { IMG_Clear } from '../../../assets/images';
 import { COLORS } from '../../../assets/color';
-import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import { useRoute } from '@react-navigation/native';
+
 
 
 const LineChartExample = () => {
   const [chartData, setChartData] = useState([]);
   const [contentInset, setContentInset] = useState({ top: 30, bottom: 30 });
+  // const route = useRoute();
+  // const email = route.params?.email;
+  // console.log(email)
   useEffect(() => {
     const reference = database().ref('/heartRateData');
     reference.on('value', snapshot => {

@@ -17,12 +17,13 @@ import {
 import { Image } from 'react-native';
 import { COLORS } from '../../assets/color';
 import { TabRouter, useNavigation } from '@react-navigation/native';
+import LoginRouter from '../../router/loginRouter';
 
 const WelcomeScreen = () => {
   const navigator = useNavigation();
 
   const navigatorMoveToTabbar = () => {
-    navigator.navigate(TabRouter);
+    navigator.navigate(LoginRouter);
   }
   const [currentStep, setCurruntStep] = useState(0);
   const [steps, setSteps] = useState([

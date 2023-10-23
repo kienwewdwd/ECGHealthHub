@@ -41,6 +41,16 @@ export { default as IMG_skip } from './Skip.png';
 export { default as IMG_Send } from './send.png';
 export { default as IMG_addChat } from './addChat.png';
 export { default as IMG_bot } from './bot.png';
+export { default as IMG_Login } from './Login.png';
+export { default as IMG_orloginwith } from './orloginwith.png';
+export { default as IMG_SignUp } from './SignUp.png';
+export { default as IMG_SignUptext } from './signUptext.png';
+export { default as IMG_donthave } from './textdonthaveAccount.png';
+export { default as IMG_google } from './google.png';
+export { default as IMG_ButtonLogin } from './ButtonLogin.png';
+export { default as IMG_ButtonSignUp } from './ButtonSignUp.png';
+export { default as IMG_Returnto } from './Returnto.png';
+export { default as IMG_loginText } from './LoginText.png';
 
 
 
