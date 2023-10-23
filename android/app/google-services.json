@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "470536904317",
+    "firebase_url": "https://thesis-bme-cufflessbp-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "thesis-bme-cufflessbp",
+    "storage_bucket": "thesis-bme-cufflessbp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:470536904317:android:ffdb6ff7f6a5f75e31db14",
+        "android_client_info": {
+          "package_name": "com.thesisbiomedicalfinal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCE0icYWdlbOA5h-bggGOqQhvaKTQUKu60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
