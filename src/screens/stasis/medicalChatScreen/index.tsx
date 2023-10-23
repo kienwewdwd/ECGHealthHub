@@ -12,7 +12,7 @@ import axios from 'axios';
 import { COLORS, IMG_Save, IMG_Send, IMG_addChat, IMG_back, IMG_bot } from 'assets';
 import { Image } from 'react-native';
 
-const apiKey = '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';
+// const apiKey = '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';
 
 const Chatbox = () => {
   const [input, setInput] = useState('');
