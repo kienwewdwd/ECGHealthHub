@@ -10,7 +10,7 @@ const AreaChartExample = () => {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    const reference = database().ref('/history/heartRateDataStore/10:14:2023/23:31:57');
+    const reference = database().ref('/history/heartRateDataStore');
     reference.on('value', snapshot => {
       const value = snapshot.val();
       if (value) {

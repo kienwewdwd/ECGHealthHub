@@ -12,7 +12,7 @@ import axios from 'axios';
 import { COLORS, IMG_Save, IMG_Send, IMG_addChat, IMG_back, IMG_bot } from 'assets';
 import { Image } from 'react-native';
 
-// const apiKey = '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';
+// const apiKey = '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';
 
 const Chatbox = () => {
   const [input, setInput] = useState('');
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between', // Place content at the bottom
     padding: 16,
-    backgroundColor: COLORS.BackGround,
+    backgroundColor: COLORS.BackGround,                                                    
     borderRadius: 20,
     width: '100%',
     height: '100%'

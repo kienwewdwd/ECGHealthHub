@@ -51,6 +51,8 @@ export { default as IMG_ButtonLogin } from './ButtonLogin.png';
 export { default as IMG_ButtonSignUp } from './ButtonSignUp.png';
 export { default as IMG_Returnto } from './Returnto.png';
 export { default as IMG_loginText } from './LoginText.png';
+export { default as IMG_Connect } from './connect.png';
+export { default as IMG_Disconnect } from './disconnect.png';
 
 
 

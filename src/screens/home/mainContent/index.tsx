@@ -5,6 +5,7 @@ import LineChartExample from '../lineChart/ecgChart';
 import { IMG_ECGChartTilte } from '../../../assets/images';
 import { IMG_HRChartTitle } from '../../../assets/images';
 import HeartRateTab from '../tackHeartRate';
+import HRChartExample from '../lineChart/heartRateChart';
 
 const MainComponent = () => {
   return (
@@ -15,7 +16,7 @@ const MainComponent = () => {
         <Image source={IMG_ECGChartTilte} style={styles.Image} />
         <LineChartExample />
         <Image source={IMG_HRChartTitle} style={styles.Image} />
-        <LineChartExample />
+        <HRChartExample />
       </View>
       <View style={styles.spacing} />
     </ScrollView>

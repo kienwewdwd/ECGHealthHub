@@ -7,12 +7,12 @@ import { IMG_Clear } from '../../../assets/images';
 import { COLORS } from '../../../assets/color';
 
 
-const LineChartExample = () => {
+const HRChartExample = () => {
   const [chartData, setChartData] = useState([]);
   const [isConnected, setIsConnected] = useState(false); // Trạng thái kết nối
   const [contentInset, setContentInset] = useState({ top: 30, bottom: 30 });
   useEffect(() => {
-    const reference = database().ref('/test/int');
+    const reference = database().ref('/test/heartrate');
     if (isConnected === true) {
       reference.on('value', snapshot => {
         const value = snapshot.val();
@@ -42,7 +42,7 @@ const LineChartExample = () => {
         {
           text: 'Yes',
           onPress: () => {
-            const dataRef = database().ref('/test/int');
+            const dataRef = database().ref('/test/heartrate');
             dataRef
               .remove()
               .then(() => {
@@ -75,7 +75,7 @@ const LineChartExample = () => {
     var min = new Date().getMinutes(); //Current Minutes
     var sec = new Date().getSeconds(); //Current Seconds
     const dataRef = database().ref(
-      `/history/heartRateDataStore/${currentDate}/${hours}:${min}:${sec}`
+      `/history/heartRateStore/${currentDate}/${hours}:${min}:${sec}`
     );
     dataRef
       .set(chartData)
@@ -184,7 +184,7 @@ const LineChartExample = () => {
   );
 };
 
-export default LineChartExample;
+export default HRChartExample;
 
 const styles = StyleSheet.create({
   container1: {
