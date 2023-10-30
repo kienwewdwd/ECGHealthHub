@@ -4,15 +4,15 @@ import Stack1 from './tabRouter/stack1';
 import Stack2 from './tabRouter/stack2';
 import Stack3 from './tabRouter/stack3';
 import Stack4 from './tabRouter/stack4';
-import { Image, StyleSheet, View } from 'react-native';
-import { IMG_DashBoard } from '../assets/images';
+import { Image, View } from 'react-native';
+import { IMG_Avatar,IMG_HistoryGif, IMG_Home, IMG_HomeGif, IMG_chat } from '../assets/images';
 import { IMG_Stat } from '../assets/images';
 import { IMG_History } from '../assets/images';
 import { IMG_Profile } from '../assets/images';
 import { COLORS } from '../assets/color';
 
 const TabStack = createBottomTabNavigator();
-const iconSize = 30;
+const iconSize = 35;
 
 const TabRouter = () => {
   return (
@@ -22,13 +22,13 @@ const TabRouter = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconSource;
           if (route.name === 'DashBoard') {
-            iconSource = IMG_DashBoard;
+            iconSource = focused ? IMG_HomeGif : IMG_Home;
           } else if (route.name === 'History') {
-            iconSource = IMG_History;
+            iconSource = focused ? IMG_HistoryGif : IMG_History;
           } else if (route.name === 'ChatBox') {
-            iconSource = IMG_Stat;
+            iconSource = focused ? IMG_chat:IMG_Stat;
           } else if (route.name === 'Profile') {
-            iconSource = IMG_Profile;
+            iconSource = focused ? IMG_Avatar: IMG_Profile;
           }
           return (
             <View >

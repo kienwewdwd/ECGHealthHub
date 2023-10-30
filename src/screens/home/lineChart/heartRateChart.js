@@ -1,16 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { LineChart, Grid } from 'react-native-svg-charts';
 import database from '@react-native-firebase/database';
-import { IMG_Connect, IMG_Decrease, IMG_Disconnect, IMG_Increase, IMG_Save } from '../../../assets/images';
+import {
+  IMG_Connect,
+  IMG_Decrease,
+  IMG_Disconnect,
+  IMG_Increase,
+  IMG_Save
+} from '../../../assets/images';
 import { IMG_Clear } from '../../../assets/images';
 import { COLORS } from '../../../assets/color';
-
+import LineGraph from '@chartiful/react-native-line-graph';
 
 const HRChartExample = () => {
   const [chartData, setChartData] = useState([]);
   const [isConnected, setIsConnected] = useState(false); // Trạng thái kết nối
-  const [contentInset, setContentInset] = useState({ top: 30, bottom: 30 });
+  const [width, setWidth] = useState (330);
+  const [height, setHeight] = useState (165);
+
+  const [chartData1, setChartData1] = useState();
+  const [dataHistory, setDataHistory] = useState([0,0]);
+
+  useEffect(() => {
+    const reference = database().ref('/BPM');
+  
+    if (isConnected) {
+      const listener = reference.on('value', snapshot => {
+        const value = snapshot.val();
+        if (value !== null) {
+          const intValue = parseInt(value, 10);
+          setChartData1(intValue);
+          setDataHistory(prevData => {
+            if (prevData.length >= 10) {
+              prevData = prevData.slice(1);
+            }
+            return [...prevData, intValue];
+          });
+        }
+      });
+  
+      return () => reference.off('value', listener);
+    }
+  }, [isConnected]);
+
+  // console.log(dataHistory); 
+
   useEffect(() => {
     const reference = database().ref('/test/heartrate');
     if (isConnected === true) {
@@ -74,11 +108,9 @@ const HRChartExample = () => {
     var hours = new Date().getHours(); //Current Hours
     var min = new Date().getMinutes(); //Current Minutes
     var sec = new Date().getSeconds(); //Current Seconds
-    const dataRef = database().ref(
-      `/history/heartRateStore/${currentDate}/${hours}:${min}:${sec}`
-    );
+    const dataRef = database().ref(`/history/heartRateStore/${currentDate}/${hours}:${min}:${sec}`);
     dataRef
-      .set(chartData)
+      .set(dataHistory)
       .then(() => {
         Alert.alert('Data pushed to Firebase successfully.');
       })
@@ -86,70 +118,59 @@ const HRChartExample = () => {
         Alert.alert('Error pushing data to Firebase:', error);
       });
   };
-  // const saveDataAutomatically = () => {
-  //   const pushDataToFirebaseAutomatically = () => {
-  //     var hours = new Date().getHours(); //Current Hours
-  //   var min = new Date().getMinutes(); //Current Minutes
-  //   var sec = new Date().getSeconds(); //Current Seconds
-  //     const dataRef = database().ref(`/history/heartRateDataStoreAutomatically/${currentDate}/${hours}:${min}:${sec}`);
-  //     dataRef
-  //       .set(chartData)
-  //       .then(() => {
-  //       })
-  //       .catch(error => {
-  //         console.error('Error pushing data to Firebase', error);
-  //       });
-  //   };
-  // //   pushDataToFirebaseAutomatically();
-  // //   const intervalID = setInterval(pushDataToFirebaseAutomatically, 300000);
-  // // };
-  // // saveDataAutomatically();
-
-  // useEffect (() => {
-  //   const timer =  setTimeout(pushDataToFirebaseAutomatically, 5000);
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // });
   const increaseContentInset = () => {
-    const newTop = contentInset.top + 10;
-    const newBottom = contentInset.bottom + 10;
-    setContentInset({ top: newTop, bottom: newBottom });
+    const newWidth = width + 5;
+    const newHeight = height + 5;
+    setWidth(newWidth);
+    setHeight(newHeight);
   };
 
   const decreaseContentInset = () => {
-    const newTop = contentInset.top - 10;
-    const newBottom = contentInset.bottom - 10;
-    setContentInset({ top: newTop, bottom: newBottom });
+    const newWidth = width - 5;
+    const newHeight = height - 5;
+    setWidth(newWidth);
+    setHeight(newHeight);
   };
 
   return (
     <View>
-    <View style = {{marginBottom: 12, marginLeft: 16}}>
-    <TouchableOpacity onPress={toggleConnection}>
-        <Image source={isConnected ? IMG_Connect : IMG_Disconnect} />
-      </TouchableOpacity>
-    </View>
-      <View style={styles.container1}>       
-          <View style={styles.rowing}>
+      <View style={{ marginBottom: 12, marginLeft: 16 }}>
+        <TouchableOpacity onPress={toggleConnection}>
+          <Image source={isConnected ? IMG_Connect : IMG_Disconnect} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.container1}>
+        <View style={styles.rowing}>
           <View style={styles.container}>
-            <LineChart
-              style={{ flex: 1 }}
-              data={chartData}
-              animate
-              numberOfTicks={5}
-              contentInset={contentInset}
-              yAccessor={({ item }) => item} // Replace 'y' with the actual field name for the y-axis in your data
-              xAccessor={({ index }) => index} // Provide the index as xAccessor
-              svg={{ stroke: COLORS.LightBlue }}>
-              <Grid
-                svg={{
-                  stroke: 'transparent',
-                  strokeOpacity: 0.3
-                }}
-                direction="BOTH"
-              />
-            </LineChart>
+            <LineGraph
+              data={dataHistory}
+              width={width}
+              height={height}
+              lineColor= {COLORS.LightBlue}
+              dotColor={COLORS.DarkBlue}
+              lineWidth={3}
+              isBezier
+              hasDots={true}
+              baseConfig={{
+                startAtZero: false,
+                hasXAxisBackgroundLines: false,
+                xAxisLabelStyle: {
+                  // prefix: '',
+                  // offset: 30
+
+
+                }
+
+              }}
+              style={{
+                marginBottom: 20,
+                padding: 10,
+                paddingTop: 20,
+                borderRadius: 20,
+                width: '100%',
+                backgroundColor: 'transparent'
+              }}
+            />
           </View>
           <View style={styles.spacing1} />
           <View>

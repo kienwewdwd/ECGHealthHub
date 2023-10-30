@@ -53,6 +53,12 @@ export { default as IMG_Returnto } from './Returnto.png';
 export { default as IMG_loginText } from './LoginText.png';
 export { default as IMG_Connect } from './connect.png';
 export { default as IMG_Disconnect } from './disconnect.png';
+export { default as IMG_ArrowDown } from './arrowdown.gif';
+export { default as IMG_Avatar } from './avatar.gif';
+export { default as IMG_chat } from './chat.gif';
+export { default as IMG_HistoryGif } from './history.gif';
+export { default as IMG_HomeGif } from './homeee.gif';
+export { default as IMG_heart } from './heart.gif';
 
 
 

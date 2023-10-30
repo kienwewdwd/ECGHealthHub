@@ -5,6 +5,8 @@ import database from '@react-native-firebase/database';
 import { IMG_Decrease, IMG_LineRow, IMG_LineRowngan, IMG_LineRowvua } from '../../../../assets/images';
 import { IMG_Increase } from '../../../../assets/images';
 import { COLORS } from '../../../../assets/color';
+import LineGraph from '@chartiful/react-native-line-graph'
+
 
 const HRChartHistory = () => {
   const [chartData, setChartData] = useState([]);
@@ -15,6 +17,8 @@ const HRChartHistory = () => {
   const [selectedItem1, setSelectedItem1] = useState(null);
   const [selectedItem2, setSelectedItem2] = useState(null);
   const [contentInset, setContentInset] = useState({ top: 30, bottom: 30 });
+  const [width, setWidth] = useState (330);
+  const [height, setHeight] = useState (165);
 
 
   useEffect(() => {
@@ -72,16 +76,17 @@ const HRChartHistory = () => {
   };
    // Function to increase the top and bottom contentInset
    const increaseContentInset = () => {
-    const newTop = contentInset.top + 10;
-    const newBottom = contentInset.bottom + 10;
-    setContentInset({ top: newTop, bottom: newBottom });
+    const newWidth = width + 5;
+    const newHeight = height + 5;
+    setWidth(newWidth);
+    setHeight(newHeight);
   };
 
-  // Function to decrease the top and bottom contentInset
   const decreaseContentInset = () => {
-    const newTop = contentInset.top - 10;
-    const newBottom = contentInset.bottom - 10;
-    setContentInset({ top: newTop, bottom: newBottom });
+    const newWidth = width - 5;
+    const newHeight = height - 5;
+    setWidth(newWidth);
+    setHeight(newHeight);
   };
 
   return (
@@ -162,18 +167,34 @@ const HRChartHistory = () => {
         <View style = {styles.spacing2}/>
       <View style = {styles.rowing}>
       <View style={styles.container}>
-        <LineChart
-          style={{ flex: 1 }}
-          data={chartData}
-          contentInset={contentInset}
-          svg={{ stroke: COLORS.LightBlue }}>
-          <Grid
-            svg={{
-              stroke: 'transparent',
-              strokeOpacity: 0.5
-            }}
-          />
-        </LineChart>
+      <LineGraph
+              data={chartData}
+              width={width}
+              height={height}
+              lineColor= {COLORS.LightBlue}
+              dotColor={COLORS.DarkBlue}
+              lineWidth={3}
+              isBezier
+              hasDots={true}
+              baseConfig={{
+                startAtZero: false,
+                hasXAxisBackgroundLines: false,
+                yAxisLabelCount: false
+                // hasYAxisLabels: false
+              
+
+              }}
+              style={{
+                
+                marginBottom: 20,
+                padding: 10,
+                paddingTop: 20,
+                borderRadius: 20,
+                width: '100%',
+                backgroundColor: 'transparent',
+                flex : 1
+              }}
+            />
         </View>
         <View style = {styles.spacing1}/>
         <View >

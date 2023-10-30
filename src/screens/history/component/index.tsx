@@ -29,6 +29,7 @@ export default HistoryComponent;
 
 const styles = StyleSheet.create({
   container: {
+    // flex: 1,
     borderRadius: 20,
     width: '100%',
     height: '100%',

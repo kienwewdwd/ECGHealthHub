@@ -2,15 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { LineChart, Grid } from 'react-native-svg-charts';
 import database from '@react-native-firebase/database';
-import { IMG_Connect, IMG_Decrease, IMG_Disconnect, IMG_Increase, IMG_Save } from '../../../assets/images';
+import { IMG_ArrowDown, IMG_Connect, IMG_Decrease, IMG_Disconnect, IMG_Increase, IMG_Save } from '../../../assets/images';
 import { IMG_Clear } from '../../../assets/images';
 import { COLORS } from '../../../assets/color';
+import { useSelector } from 'react-redux';
+
 
 
 const LineChartExample = () => {
   const [chartData, setChartData] = useState([]);
   const [isConnected, setIsConnected] = useState(false); // Trạng thái kết nối
   const [contentInset, setContentInset] = useState({ top: 30, bottom: 30 });
+ 
+
+
   useEffect(() => {
     const reference = database().ref('/test/int');
     if (isConnected === true) {
@@ -29,6 +34,8 @@ const LineChartExample = () => {
   const toggleConnection = () => {
     setIsConnected(!isConnected); // Đảo ngược trạng thái kết nối
   };
+
+  
   const clearData = () => {
     Alert.alert(
       'Clear Data',
@@ -86,31 +93,7 @@ const LineChartExample = () => {
         Alert.alert('Error pushing data to Firebase:', error);
       });
   };
-  // const saveDataAutomatically = () => {
-  //   const pushDataToFirebaseAutomatically = () => {
-  //     var hours = new Date().getHours(); //Current Hours
-  //   var min = new Date().getMinutes(); //Current Minutes
-  //   var sec = new Date().getSeconds(); //Current Seconds
-  //     const dataRef = database().ref(`/history/heartRateDataStoreAutomatically/${currentDate}/${hours}:${min}:${sec}`);
-  //     dataRef
-  //       .set(chartData)
-  //       .then(() => {
-  //       })
-  //       .catch(error => {
-  //         console.error('Error pushing data to Firebase', error);
-  //       });
-  //   };
-  // //   pushDataToFirebaseAutomatically();
-  // //   const intervalID = setInterval(pushDataToFirebaseAutomatically, 300000);
-  // // };
-  // // saveDataAutomatically();
 
-  // useEffect (() => {
-  //   const timer =  setTimeout(pushDataToFirebaseAutomatically, 5000);
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // });
   const increaseContentInset = () => {
     const newTop = contentInset.top + 10;
     const newBottom = contentInset.bottom + 10;
