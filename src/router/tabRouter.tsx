@@ -10,11 +10,14 @@ import { IMG_Stat } from '../assets/images';
 import { IMG_History } from '../assets/images';
 import { IMG_Profile } from '../assets/images';
 import { COLORS } from '../assets/color';
+import { useRoute } from '@react-navigation/native';
 
 const TabStack = createBottomTabNavigator();
 const iconSize = 35;
 
 const TabRouter = () => {
+  const route = useRoute(); 
+  const {email} = route.params ?? {};
   return (
     <TabStack.Navigator
       screenOptions={({ route }) => ({
@@ -53,8 +56,8 @@ const TabRouter = () => {
         inactiveTintColor: '#4F4C4C'
       }}>
     
-      <TabStack.Screen name={'DashBoard'} component={Stack1} />
-      <TabStack.Screen name={'History'} component={Stack2} />
+      <TabStack.Screen name={'DashBoard'} component={Stack1} initialParams={{ email: email }}/>
+      <TabStack.Screen name={'History'} component={Stack2} initialParams={{ email: email }} />
       <TabStack.Screen name={'ChatBox'} component={Stack3} />
       <TabStack.Screen name={'Profile'} component={Stack4} />
     </TabStack.Navigator>

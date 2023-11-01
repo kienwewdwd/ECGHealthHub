@@ -12,7 +12,7 @@ import { IMG_Clear } from '../../../assets/images';
 import { COLORS } from '../../../assets/color';
 import LineGraph from '@chartiful/react-native-line-graph';
 
-const HRChartExample = () => {
+const HRChartExample = ({email}) => {
   const [chartData, setChartData] = useState([]);
   const [isConnected, setIsConnected] = useState(false); // Trạng thái kết nối
   const [width, setWidth] = useState (330);
@@ -20,6 +20,8 @@ const HRChartExample = () => {
 
   const [chartData1, setChartData1] = useState();
   const [dataHistory, setDataHistory] = useState([0,0]);
+  const userName = email.replace(/[^a-zA-Z0-9]/g, '');
+
 
   useEffect(() => {
     const reference = database().ref('/BPM');
@@ -108,7 +110,7 @@ const HRChartExample = () => {
     var hours = new Date().getHours(); //Current Hours
     var min = new Date().getMinutes(); //Current Minutes
     var sec = new Date().getSeconds(); //Current Seconds
-    const dataRef = database().ref(`/history/heartRateStore/${currentDate}/${hours}:${min}:${sec}`);
+    const dataRef = database().ref(`/history/${userName}/heartRateStore/${currentDate}/${hours}:${min}:${sec}`);
     dataRef
       .set(dataHistory)
       .then(() => {

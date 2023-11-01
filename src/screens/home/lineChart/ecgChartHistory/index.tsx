@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity, Image } from 'react-native';
 import { LineChart, Grid } from 'react-native-svg-charts';
 import database from '@react-native-firebase/database';
-import { IMG_Decrease, IMG_LineRow, IMG_LineRowngan, IMG_LineRowvua } from '../../../../assets/images';
+import { IMG_Decrease, IMG_LineRow } from '../../../../assets/images';
 import { IMG_Increase } from '../../../../assets/images';
 import { COLORS } from '../../../../assets/color';
 
-const LineChartExample1 = () => {
+const LineChartExample1 = ({email}) => {
   const [chartData, setChartData] = useState([]);
   const [paths, setPaths] = useState([]);
   const [selectedPath, setSelectedPath] = useState(null);
@@ -15,11 +15,12 @@ const LineChartExample1 = () => {
   const [selectedItem1, setSelectedItem1] = useState(null);
   const [selectedItem2, setSelectedItem2] = useState(null);
   const [contentInset, setContentInset] = useState({ top: 30, bottom: 30 });
+  const userName = email.replace(/[^a-zA-Z0-9]/g, '');
 
 
   useEffect(() => {
     // Fetch the top-level paths from Firebase
-    const reference = database().ref('/history/heartRateDataStore');
+    const reference = database().ref(`/history/${userName}/heartRateDataStore`);
     reference.on('value', snapshot => {
       const value = snapshot.val();
       if (value) {
@@ -33,7 +34,7 @@ const LineChartExample1 = () => {
   useEffect(() => {
     if (selectedPath) {
       // Fetch the subpaths under the selected top-level path
-      const reference1 = database().ref(`/history/heartRateDataStore/${selectedPath}`);
+      const reference1 = database().ref(`/history/${userName}/heartRateDataStore/${selectedPath}`);
       reference1.on('value', snapshot => {
         const value = snapshot.val();
         if (value) {
@@ -49,7 +50,7 @@ const LineChartExample1 = () => {
     if (selectedPath1) {
       // Fetch the data associated with the selected subpath
       const dataReference = database().ref(
-        `/history/heartRateDataStore/${selectedPath}/${selectedPath1}`
+        `/history/${userName}/heartRateDataStore/${selectedPath}/${selectedPath1}`
       );
       dataReference.on('value', snapshot => {
         const value = snapshot.val();

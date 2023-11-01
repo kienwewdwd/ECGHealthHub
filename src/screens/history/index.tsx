@@ -2,16 +2,18 @@ import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View, } from 'react-
 import React from 'react'
 import Header from '../../components/header'
 import HistoryComponent from './component'
-import HeartRateChart from './heartRateChart'
+import { useRoute } from '@react-navigation/native'
 
 
 
 
 const HistoryScreen = () => {
+  const route = useRoute(); 
+  const {email} = route.params ?? {};
   return (
     <SafeAreaView style = { styles.container}>
       <Header/>
-      <HistoryComponent/>
+      <HistoryComponent email = {email} />
     </SafeAreaView>
   )
 }

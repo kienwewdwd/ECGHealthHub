@@ -8,16 +8,16 @@ import LineChartExample1 from '../../home/lineChart/ecgChartHistory';
 import AreaChartExample from '../heartRateChart';
 import HRChartHistory from '../../../screens/home/lineChart/hrHistory';
 
-const HistoryComponent = () => {
+const HistoryComponent = ({email}) => {
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.spacing} />
         <Image source={IMG_ECGHistory} style={styles.Image} />
         {/* <Image source={IMG_ddmmyy} style={styles.Image1} /> */}
-        <LineChartExample1 />
+        <LineChartExample1 email = {email}/>
         <Image source={IMG_HRHistory} style={styles.Image} />
-        <HRChartHistory />
+        <HRChartHistory email = {email}/>
         {/* <AreaChartExample/> */}
       </View>
       <View style={styles.spacing} />

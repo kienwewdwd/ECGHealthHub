@@ -1,6 +1,5 @@
 import {
   Alert,
-  Button,
   Image,
   KeyboardAvoidingView,
   StyleSheet,
@@ -57,7 +56,10 @@ const SignInScreen = () => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(response);
-      navigation.navigate('TabRouter', { email: 'email' });
+      if (response) {
+        navigation.navigate('TabRouter',  { email: email },);
+      }
+
     } catch (error: any) {
       console.log(error);
       Alert.alert('Check your email: ' + error.message);

@@ -6,11 +6,10 @@ import { COLORS } from './../../../assets/color';
 import database from '@react-native-firebase/database';
 import { LineChart, Grid } from 'react-native-svg-charts';
 
-
-const HeartRateTab = () => {
+const HeartRateTab = ({}) => {
   const [chartData1, setChartData1] = useState();
   const [dataHistory, setDataHistory] = useState([]);
-  
+
 
   useEffect(() => {
     const reference = database().ref('/BPM');
@@ -27,15 +26,15 @@ const HeartRateTab = () => {
           // Add the new value to the end of the array
           prevData.push(intValue);
           return [...prevData]; // Create a new array to trigger a state update
-        }
-        );
+        });
       }
     });
-    
+
     return () => reference.off('value');
   }, []);
 
-  // console.log(dataHistory); 
+
+  // console.log(dataHistory);
   return (
     <View style={styles.container1}>
       <View style={styles.infoContainer}>
@@ -48,10 +47,9 @@ const HeartRateTab = () => {
           <Image source={IMG_Line} style={styles.image1} />
           <View style={styles.spacing} />
           <View>
-            <Text style={styles.text}>{chartData1}  bpm</Text>
+            <Text style={styles.text}>{chartData1} bpm</Text>
           </View>
         </View>
-        
       </View>
     </View>
   );

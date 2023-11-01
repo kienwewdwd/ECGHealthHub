@@ -7,16 +7,17 @@ import { IMG_HRChartTitle } from '../../../assets/images';
 import HeartRateTab from '../tackHeartRate';
 import HRChartExample from '../lineChart/heartRateChart';
 
-const MainComponent = () => {
+const MainComponent = ({email}) => {
+  const emailName = email;
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.spacing} />
         <HeartRateTab />
         <Image source={IMG_ECGChartTilte} style={styles.Image} />
-        <LineChartExample />
+        <LineChartExample email={email}/>
         <Image source={IMG_HRChartTitle} style={styles.Image} />
-        <HRChartExample />
+        <HRChartExample email={email} />
       </View>
       <View style={styles.spacing} />
     </ScrollView>

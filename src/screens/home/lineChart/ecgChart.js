@@ -1,28 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, StyleSheet,TouchableOpacity, View } from 'react-native';
 import { LineChart, Grid } from 'react-native-svg-charts';
 import database from '@react-native-firebase/database';
-import { IMG_ArrowDown, IMG_Connect, IMG_Decrease, IMG_Disconnect, IMG_Increase, IMG_Save } from '../../../assets/images';
+import { IMG_Connect, IMG_Decrease, IMG_Disconnect, IMG_Increase, IMG_Save } from '../../../assets/images';
 import { IMG_Clear } from '../../../assets/images';
 import { COLORS } from '../../../assets/color';
-import { useSelector } from 'react-redux';
 
 
 
-const LineChartExample = () => {
+const LineChartExample = ({email}) => {
   const [chartData, setChartData] = useState([]);
   const [isConnected, setIsConnected] = useState(false); // Trạng thái kết nối
   const [contentInset, setContentInset] = useState({ top: 30, bottom: 30 });
- 
+  const threshold = 1.5; // Ngưỡng để xác định R peak
+  const rPeaks = [];
+  const [smoothedData, setSmoothedData] = useState ([]);
+  const userName = email.replace(/[^a-zA-Z0-9]/g, '');
+
+
 
 
   useEffect(() => {
-    const reference = database().ref('/test/int');
+    const reference = database().ref('test/int');
     if (isConnected === true) {
       reference.on('value', snapshot => {
         const value = snapshot.val();
         if (value) {
           const chartData = Object.values(value);
+          const ecg_filter = chartData.filter( x => x !==null);
+          const windowSize = 3;
+          const smoothed_data = smoothData(ecg_filter, windowSize);
+          setSmoothedData(smoothed_data);
           setChartData(chartData);
         }
       });
@@ -30,6 +38,20 @@ const LineChartExample = () => {
       reference.off('value'); // Ngắt kết nối Firebase
     }
   }, [isConnected]);
+  // Hàm xử lý dữ liệu ECG và tính toán smoothed_data
+function smoothData(data, windowSize) {
+  const smoothedData = [];
+  for (let i = 0; i < data.length; i++) {
+    let sum = 0;
+    for (let j = i - Math.floor(windowSize / 2); j <= i + Math.floor(windowSize / 2); j++) {
+      if (j >= 0 && j < data.length) {
+        sum += data[j];
+      }
+    }
+    smoothedData.push(sum / windowSize);
+  }
+  return smoothedData;
+}
 
   const toggleConnection = () => {
     setIsConnected(!isConnected); // Đảo ngược trạng thái kết nối
@@ -82,7 +104,7 @@ const LineChartExample = () => {
     var min = new Date().getMinutes(); //Current Minutes
     var sec = new Date().getSeconds(); //Current Seconds
     const dataRef = database().ref(
-      `/history/heartRateDataStore/${currentDate}/${hours}:${min}:${sec}`
+      `/history/${userName}/heartRateDataStore/${currentDate}/${hours}:${min}:${sec}`
     );
     dataRef
       .set(chartData)
@@ -105,7 +127,22 @@ const LineChartExample = () => {
     const newBottom = contentInset.bottom - 10;
     setContentInset({ top: newTop, bottom: newBottom });
   };
+  for (let i = 1; i < chartData.length - 1; i++) {
+    if (chartData[i] > threshold && chartData[i] > chartData[i - 1] && chartData[i] > chartData[i + 1]) {
+      rPeaks.push(i);
+    }
+  }
+  const rrIntervals = [];
+  for (let i = 1; i < rPeaks.length; i++) {
+    const rrInterval = rPeaks[i] - rPeaks[i - 1];
+    rrIntervals.push(rrInterval);
+  }
+  
+  const meanRRInterval = rrIntervals.reduce((a, b) => a + b, 0) / rrIntervals.length;
+  const heartRate = 60 / (meanRRInterval / (600/8)); // Chỉnh sampleRate theo tần số lấy mẫu của bạn
 
+
+console.log(heartRate);
   return (
     <View>
     <View style = {{marginBottom: 12, marginLeft: 16}}>
@@ -118,7 +155,7 @@ const LineChartExample = () => {
           <View style={styles.container}>
             <LineChart
               style={{ flex: 1 }}
-              data={chartData}
+              data={smoothedData}
               animate
               numberOfTicks={5}
               contentInset={contentInset}
