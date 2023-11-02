@@ -33,7 +33,7 @@ const HRChartExample = ({email}) => {
           const intValue = parseInt(value, 10);
           setChartData1(intValue);
           setDataHistory(prevData => {
-            if (prevData.length >= 10) {
+            if (prevData.length >= 10 ) {
               prevData = prevData.slice(1);
             }
             return [...prevData, intValue];

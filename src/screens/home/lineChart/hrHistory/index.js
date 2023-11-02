@@ -8,7 +8,7 @@ import { COLORS } from '../../../../assets/color';
 import LineGraph from '@chartiful/react-native-line-graph'
 
 
-const HRChartHistory = () => {
+const HRChartHistory = ({email}) => {
   const [chartData, setChartData] = useState([]);
   const [paths, setPaths] = useState([]);
   const [selectedPath, setSelectedPath] = useState(null);
@@ -19,11 +19,13 @@ const HRChartHistory = () => {
   const [contentInset, setContentInset] = useState({ top: 30, bottom: 30 });
   const [width, setWidth] = useState (330);
   const [height, setHeight] = useState (165);
+  const userName = email.replace(/[^a-zA-Z0-9]/g, '');
+
 
 
   useEffect(() => {
     // Fetch the top-level paths from Firebase
-    const reference = database().ref('/history/heartRateStore');
+    const reference = database().ref(`/history/${userName}/heartRateStore`);
     reference.on('value', snapshot => {
       const value = snapshot.val();
       if (value) {
@@ -37,7 +39,7 @@ const HRChartHistory = () => {
   useEffect(() => {
     if (selectedPath) {
       // Fetch the subpaths under the selected top-level path
-      const reference1 = database().ref(`/history/heartRateStore/${selectedPath}`);
+      const reference1 = database().ref(`/history/${userName}/heartRateStore/${selectedPath}`);
       reference1.on('value', snapshot => {
         const value = snapshot.val();
         if (value) {
@@ -53,7 +55,7 @@ const HRChartHistory = () => {
     if (selectedPath1) {
       // Fetch the data associated with the selected subpath
       const dataReference = database().ref(
-        `/history/heartRateStore/${selectedPath}/${selectedPath1}`
+        `/history/${userName}/heartRateStore/${selectedPath}/${selectedPath1}`
       );
       dataReference.on('value', snapshot => {
         const value = snapshot.val();
